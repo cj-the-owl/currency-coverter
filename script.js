@@ -17,7 +17,7 @@
 const apiKey = "ee2f2ec90dde9ebd8942b3bf";
 
 //fetching the information
-fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/codes`)
+fetch(`https://v6.exchangerate-api.com/v6/ee2f2ec90dde9ebd8942b3bf/codes`)
 .then((response) => response.json())
 .then ((data) => {
     const {supported_codes} = data;
@@ -25,8 +25,8 @@ fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/codes`)
 
     supported_codes.forEach((code) => {
         const optionElement = document.createElement("option");
-        optionElement.value = code;
-        optionElement.text = code;
+        optionElement.value = code.slice(0,1);
+        optionElement.text = code.slice(0,1);
 
         selectElements.forEach((select) => {
             select.appendChild(optionElement.cloneNode(true));
@@ -40,15 +40,15 @@ fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/codes`)
 
 function conversion() {
     const inputCurrency = document.getElementById("input-currency")
-    const selectFrom = document.getElementById("selectFrom")
-    const selectTo = document.getElementById("selectTo")
+    const selectFrom = document.getElementById("selectFrom").value
+    const selectTo = document.getElementById("selectTo").value
     const displayConversion = document.getElementById("displayConversion")
 
     fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/pair/${selectFrom}/${selectTo}`)
     .then(response => response.json())
     .then(data => {
         const {conversion_rate} = data;
-        const amountcoverted = (inputCurrency.value * conversion_rate).toFixed(2);
+        const amountConverted = (inputCurrency.value * conversion_rate).toFixed(2);
 
         displayConversion.innerHTML = `${inputCurrency.value}
         ${selectFrom} = ${amountConverted} ${selectTo}`
